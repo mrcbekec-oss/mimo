@@ -1,5 +1,5 @@
 const responses = {
-  game: ['Helal sana!', 'Hadi başarılar!'],
+  game: ['Helal sana!', 'Hadi başarılar!', 'Standoff 2 oynayalım mı?'],
   study: ['Hadi başarılar!', 'Bence akıllısın.', 'Aferin, doğru yoldasın!'],
   break: [
     'Çay kahve iç.',
