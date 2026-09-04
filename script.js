@@ -1,5 +1,5 @@
 const responses = {
-  game: ['Helal sana!', 'Hadi başarılar!', 'Standoff 2 oynayalım mı?'],
+  game: ['Standoff 2 oynayalım mı?', 'Helal sana!', 'Hadi başarılar!'],
   study: ['Hadi başarılar!', 'Bence akıllısın.', 'Aferin, doğru yoldasın!'],
   break: [
     'Çay kahve iç.',
@@ -12,10 +12,13 @@ const responses = {
 
 const buttons = document.querySelectorAll('.mode-card');
 const responseText = document.querySelector('#response-text');
+const responseIndexes = { game: 0, study: 0, break: 0 };
 
 function chooseResponse(mode) {
   const messages = responses[mode];
-  return messages[Math.floor(Math.random() * messages.length)];
+  const message = messages[responseIndexes[mode]];
+  responseIndexes[mode] = (responseIndexes[mode] + 1) % messages.length;
+  return message;
 }
 
 buttons.forEach((button) => {
