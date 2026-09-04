@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mimo | Senin dijital arkadaşın</title>
+  <meta name="description" content="Mimo ile oyun, ders ve mola modları arasında geçiş yap.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Mimo ana sayfa">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>Mimo</span>
+      </a>
+      <div class="status-pill"><span class="status-dot"></span> çevrimiçi</div>
+    </header>
+
+    <section class="hero" id="top">
+      <div class="intro">
+        <p class="eyebrow">Dijital arkadaşın</p>
+        <h1>Bugün hangi<br><em>moddasın?</em></h1>
+        <p class="lede">Mimo burada. Ne yapıyorsan ona göre sana eşlik etmeye hazır.</p>
+      </div>
+      <div class="bot-stage" aria-label="Gülen Mimo karakteri">
+        <div class="bot-aura"></div>
+        <div class="bot-face">
+          <div class="antenna"><span></span></div>
+          <div class="ear ear-left"></div><div class="ear ear-right"></div>
+          <div class="face-panel">
+            <div class="eyes"><span></span><span></span></div>
+            <div class="cheeks"><span></span><span></span></div>
+            <div class="smile"></div>
+          </div>
+        </div>
+        <span class="spark spark-one">+</span><span class="spark spark-two">+</span>
+      </div>
+    </section>
+
+    <section class="mode-section" aria-labelledby="mode-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">Mimo'ya söyle</p><h2 id="mode-title">Şu an ne yapıyorsun?</h2></div>
+        <span class="step-count">01 / 01</span>
+      </div>
+      <div class="mode-grid" role="group" aria-label="Aktivite seçimi">
+        <button class="mode-card active" data-mode="game" type="button">
+          <span class="card-icon game-icon" aria-hidden="true"><span></span></span>
+          <span class="card-copy"><strong>Oyun oynuyorum</strong><small>Enerjiyi yükselt</small></span>
+          <span class="arrow" aria-hidden="true">&#8594;</span>
+        </button>
+        <button class="mode-card" data-mode="study" type="button">
+          <span class="card-icon study-icon" aria-hidden="true"></span>
+          <span class="card-copy"><strong>Ders çalışıyorum</strong><small>Odaklanmaya yardım et</small></span>
+          <span class="arrow" aria-hidden="true">&#8594;</span>
+        </button>
+        <button class="mode-card" data-mode="break" type="button">
+          <span class="card-icon break-icon" aria-hidden="true"></span>
+          <span class="card-copy"><strong>Moladayım</strong><small>Birlikte nefes al</small></span>
+          <span class="arrow" aria-hidden="true">&#8594;</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="response" aria-live="polite">
+      <div class="response-mark">M</div>
+      <div class="response-content"><span class="response-label">Mimo diyor ki</span><p id="response-text">Harika! Oyun zamanıysa ben de hazırım. Hangi oyuna dalıyoruz?</p></div>
+      <span class="wave" aria-hidden="true">&#8767;</span>
+    </section>
+
+    <footer><span>Mimo ile küçük anlar, büyük enerji.</span><span>v1.0</span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
