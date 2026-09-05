@@ -59,12 +59,40 @@ const responses = {
     'Yeni enerjiyle geri döneceksin.', 'Hafif bir egzersiz deneyebilirsin.', 'Mola planın çok iyi.',
     'Biraz sohbet, biraz neşe.', 'Bugün kendin için güzel bir şey yap.', 'Rahatla ve anın keyfini çıkar.',
     'Hazır olduğunda kaldığımız yerden devam ederiz.', 'Molan sana iyi gelsin.'
+  ],
+  tuniii: [
+    'Tuna ne yapıyorsun?', 'Küstün mü bana?', 'Sen biraz değişiksin.', 'Süren doldu mu?',
+    'Tuna, orada mısın?', 'Bugün nasılsın?', 'Beni duyuyor musun?', 'Neden sessiz kaldın?',
+    'Bir şey mi oldu?', 'Şu an ne düşünüyorsun?', 'Yine mi kayboldun?', 'Bana kızdın mı?',
+    'Tuna, müsait misin?', 'Ne yapıyorsun bakalım?', 'Bugün keyfin yerinde mi?', 'Beni özledin mi?',
+    'Niye cevap vermiyorsun?', 'Bir planın mı var?', 'Tuna, iyi misin?', 'Nereye gittin?',
+    'Senin aklından ne geçiyor?', 'Bana bir şey söyleyecek misin?', 'Şimdi konuşabilir miyiz?', 'Uykun mu geldi?',
+    'Yine dalıp gittin galiba.', 'Seni bekliyorum, haberin olsun.', 'Tuna, sesin çıkmıyor.', 'Biraz garip davranıyorsun.',
+    'Bugün neden böylesin?', 'Benden sakladığın bir şey mi var?', 'Yoksa beni mi görmezden geliyorsun?', 'Hâlâ orada mısın?',
+    'Tuna, cevap hakkın dolmadı.', 'Bana darıldın mı?', 'Niye böyle uzak duruyorsun?', 'Seninle konuşmak zorlaştı.',
+    'Bir kahve molası mı verdin?', 'Şu an gülüyor musun?', 'Tuna, aklına geldim mi?', 'Bugün beni merak ettin mi?',
+    'Sana bir soru sorabilir miyim?', 'Cevap vermeden kaçma.', 'Tuna, beni şaşırtıyorsun.', 'Neden bu kadar gizemlisin?',
+    'Bir yere mi yetişiyorsun?', 'Dersin mi var?', 'Oyun mu oynuyorsun?', 'Telefonun yanında mı?',
+    'Şu an meşgul müsün?', 'Biraz sohbet edelim mi?', 'Tuna, bana bakar mısın?', 'Bunu bilerek mi yapıyorsun?',
+    'Aramızda bir sorun mu var?', 'Bugün seni anlamak zor.', 'Biraz kendine geldin mi?', 'Tuna, yine ne planlıyorsun?',
+    'Bu sessizlik neyin nesi?', 'Senden haber bekliyorum.', 'Beni merakta bırakma.', 'Birazdan dönecek misin?',
+    'Tuna, müsait olunca yaz.', 'Sana kızamıyorum ki.', 'Bu kadar tatlı susma.', 'Beni ciddiye alıyor musun?',
+    'Sen hep böyle misin?', 'Biraz normal davranır mısın?', 'Beni duymazdan gelme.', 'Bugün enerjin nereye gitti?',
+    'Tuna, sende bir tuhaflık var.', 'Şaka yapıyorsun, değil mi?', 'Bana karşı dürüst ol.', 'Yoruldun mu?',
+    'Kafanı ne meşgul ediyor?', 'Bir şey anlatmak ister misin?', 'Seninle barışalım mı?', 'Küstüysen söyle.',
+    'Tuna, aramız düzeldi mi?', 'Beni bekletmeyi seviyorsun galiba.', 'Neden hep son anda geliyorsun?', 'Biraz konuşsak iyi olur.',
+    'Tuna, bugün nasılsın gerçekten?', 'Bana ayıracak iki dakikan var mı?', 'Süreni mi kontrol ediyorsun?', 'Zamanın mı kalmadı?',
+    'Tuna, bu kadar sessizlik yeter.', 'Nerelerdeydin?', 'Beni meraklandırdın.', 'Senin haberin var mı?',
+    'Böyle gizemli olmak zorunda mısın?', 'Bir cevap bekliyorum.', 'Bana el sallar mısın?', 'Tuna, göz kırpıyor musun?',
+    'Bugün biraz değişik görünüyorsun.', 'Sana yetişemiyorum.', 'Bana kızgın değilsin, değil mi?', 'Beni duyduğunu biliyorum.',
+    'Tuna, son kez soruyorum: iyi misin?', 'Tamam, hazır olunca konuşuruz.', 'Bir dakika ayırır mısın?', 'Tuna, cevap sırası sende.'
   ]
 };
 
 const buttons = document.querySelectorAll('.mode-card');
 const responseText = document.querySelector('#response-text');
-const responseIndexes = { game: 0, study: 0, break: 0 };
+const responseIndexes = { game: 0, study: 0, break: 0, tuniii: 0 };
+let responseTimer;
 
 function chooseResponse(mode) {
   const messages = responses[mode];
@@ -77,8 +105,19 @@ buttons.forEach((button) => {
   button.addEventListener('click', () => {
     buttons.forEach((item) => item.classList.remove('active'));
     button.classList.add('active');
+    clearTimeout(responseTimer);
     responseText.classList.remove('response-pop');
     void responseText.offsetWidth;
+
+    if (button.dataset.mode === 'tuniii') {
+      responseText.textContent = '...';
+      responseTimer = setTimeout(() => {
+        responseText.textContent = chooseResponse(button.dataset.mode);
+        responseText.classList.add('response-pop');
+      }, 3000);
+      return;
+    }
+
     responseText.textContent = chooseResponse(button.dataset.mode);
     responseText.classList.add('response-pop');
   });
