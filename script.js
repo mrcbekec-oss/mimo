@@ -92,6 +92,10 @@ const responses = {
 const buttons = document.querySelectorAll('.mode-card');
 const responseText = document.querySelector('#response-text');
 const responseIndexes = { game: 0, study: 0, break: 0, tuniii: 0 };
+const quiz = document.querySelector('#quiz');
+const quizForm = document.querySelector('#quiz-form');
+const quizResult = document.querySelector('#quiz-result');
+const answerKey = ['a', 'c', 'c', 'd', 'd'];
 let responseTimer;
 
 function chooseResponse(mode) {
@@ -108,6 +112,9 @@ buttons.forEach((button) => {
     clearTimeout(responseTimer);
     responseText.classList.remove('response-pop');
     void responseText.offsetWidth;
+    quiz.hidden = button.dataset.mode !== 'tuniii';
+    quizResult.textContent = '';
+    if (button.dataset.mode !== 'tuniii') quizForm.reset();
 
     if (button.dataset.mode === 'tuniii') {
       responseText.textContent = '...';
@@ -121,4 +128,11 @@ buttons.forEach((button) => {
     responseText.textContent = chooseResponse(button.dataset.mode);
     responseText.classList.add('response-pop');
   });
+});
+
+quizForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const answers = answerKey.map((_, index) => quizForm.elements[`question-${index + 1}`].value);
+  const score = answers.reduce((total, answer, index) => total + (answer === answerKey[index] ? 1 : 0), 0);
+  quizResult.textContent = `${score}/5 doğru! Cevap anahtarı: A, C, C, D, D.`;
 });

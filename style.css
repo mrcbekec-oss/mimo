@@ -30,5 +30,14 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .tuniii-icon { display:grid; place-items:center; background:#d8c7ed; color:var(--ink); font-size:22px; font-weight:800; }
 .card-copy { display:flex; flex:1; flex-direction:column; gap:4px; } .card-copy strong { font-size:13px; } .card-copy small { color:var(--muted); font-size:11px; } .arrow { color:var(--coral); font-size:20px; }
 .response { display:flex; align-items:center; gap:15px; min-height:88px; padding:16px 19px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); } .response-mark { flex:none; width:35px; height:35px; border-radius:50%; font-size:13px; } .response-content { flex:1; } .response-label { display:block; margin-bottom:4px; color:#e86f5c; font:500 10px 'DM Mono', monospace; text-transform:uppercase; letter-spacing:1px; } .response p { margin:0; font-size:14px; } .wave { color:#6bad8a; font-size:28px; transform:rotate(-12deg); }
+.quiz { padding:48px 0 10px; }
+.quiz[hidden] { display:none; }
+.quiz form { display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; }
+.quiz-question { display:flex; flex-direction:column; gap:8px; padding:18px; border:1.5px solid var(--line); border-radius:15px; background:rgba(255,255,255,.42); }
+.quiz-question strong { margin-bottom:4px; font-size:13px; }
+.quiz-question label { color:var(--muted); font-size:12px; cursor:pointer; }
+.quiz-question input { accent-color:var(--coral); margin-right:6px; }
+.quiz-submit { grid-column:1 / -1; justify-self:start; padding:12px 18px; border:0; border-radius:12px; background:var(--coral); color:#fff; font-weight:700; cursor:pointer; }
+.quiz-result { min-height:20px; margin:18px 0 0; color:var(--ink); font-size:14px; font-weight:700; }
 footer { display:flex; justify-content:space-between; padding:25px 0 35px; color:#91a09d; font:11px 'DM Mono', monospace; }
-@media (max-width:700px) { .app-shell { width:min(100% - 30px, 540px); } .topbar { height:74px; } .hero { grid-template-columns:1fr; padding:38px 25px 10px; margin-top:15px; min-height:0; } h1 { font-size:48px; } .bot-stage { height:270px; } .mode-section { padding-top:42px; } .mode-grid { grid-template-columns:1fr; gap:10px; } .mode-card { min-height:77px; } .section-heading { align-items:start; } h2 { font-size:23px; max-width:230px; } }
+@media (max-width:700px) { .app-shell { width:min(100% - 30px, 540px); } .topbar { height:74px; } .hero { grid-template-columns:1fr; padding:38px 25px 10px; margin-top:15px; min-height:0; } h1 { font-size:48px; } .bot-stage { height:270px; } .mode-section { padding-top:42px; } .mode-grid, .quiz form { grid-template-columns:1fr; gap:10px; } .mode-card { min-height:77px; } .section-heading { align-items:start; } h2 { font-size:23px; max-width:230px; } .quiz { padding-top:42px; } }

@@ -73,6 +73,52 @@
       <span class="wave" aria-hidden="true">&#8767;</span>
     </section>
 
+    <section class="quiz" id="quiz" hidden aria-labelledby="quiz-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">Tuniii testi</p><h2 id="quiz-title">Bence testini çöz</h2></div>
+        <span class="step-count">05 SORU</span>
+      </div>
+      <form id="quiz-form">
+        <div class="quiz-question">
+          <strong>1. Bence nasıl bir arkadaş?</strong>
+          <label><input type="radio" name="question-1" value="a"> A) Düşünceli</label>
+          <label><input type="radio" name="question-1" value="b"> B) Sessiz</label>
+          <label><input type="radio" name="question-1" value="c"> C) Meraklı</label>
+          <label><input type="radio" name="question-1" value="d"> D) Aceleci</label>
+        </div>
+        <div class="quiz-question">
+          <strong>2. En iyi çalışma yöntemi hangisi?</strong>
+          <label><input type="radio" name="question-2" value="a"> A) Ertelemek</label>
+          <label><input type="radio" name="question-2" value="b"> B) Vazgeçmek</label>
+          <label><input type="radio" name="question-2" value="c"> C) Düzenli çalışmak</label>
+          <label><input type="radio" name="question-2" value="d"> D) Rastgele ilerlemek</label>
+        </div>
+        <div class="quiz-question">
+          <strong>3. Zor bir soruda ne yapmalısın?</strong>
+          <label><input type="radio" name="question-3" value="a"> A) Boş bırakmalısın</label>
+          <label><input type="radio" name="question-3" value="b"> B) Kızmalısın</label>
+          <label><input type="radio" name="question-3" value="c"> C) Sakin düşünüp denemelisin</label>
+          <label><input type="radio" name="question-3" value="d"> D) Hemen bırakmalısın</label>
+        </div>
+        <div class="quiz-question">
+          <strong>4. Başarı için hangisi önemlidir?</strong>
+          <label><input type="radio" name="question-4" value="a"> A) Şans</label>
+          <label><input type="radio" name="question-4" value="b"> B) Acele</label>
+          <label><input type="radio" name="question-4" value="c"> C) Bahane</label>
+          <label><input type="radio" name="question-4" value="d"> D) Emek</label>
+        </div>
+        <div class="quiz-question">
+          <strong>5. Test bitince ne yapmalısın?</strong>
+          <label><input type="radio" name="question-5" value="a"> A) Cevaplarını kontrol etmelisin</label>
+          <label><input type="radio" name="question-5" value="b"> B) Hiç bakmamalısın</label>
+          <label><input type="radio" name="question-5" value="c"> C) Soruları unutmalısın</label>
+          <label><input type="radio" name="question-5" value="d"> D) Sonucu değerlendirmelisin</label>
+        </div>
+        <button class="quiz-submit" type="submit">Testi değerlendir</button>
+      </form>
+      <p class="quiz-result" id="quiz-result" aria-live="polite"></p>
+    </section>
+
     <footer><span>Mimo ile küçük anlar, büyük enerji.</span><span>v1.0</span></footer>
   </main>
   <script src="script.js"></script>
