@@ -31,6 +31,7 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .feed-icon { display:grid; place-items:center; background:#f5a998; color:var(--ink); font-size:18px; }
 .lego2d-icon { display:grid; place-items:center; background:#f6d979; color:var(--ink); font-size:20px; }
 .outside-icon { display:grid; place-items:center; background:#f6d979; color:#d99028; font-size:21px; }
+.education-icon { display:grid; place-items:center; background:#b9dbe4; color:var(--ink); font-size:12px; font-weight:800; }
 .feed-card:disabled { cursor:default; opacity:.68; transform:none; }
 .feed-card.is-complete { border-color:#91b7a4; background:#edf7ef; }
 .card-copy { display:flex; flex:1; flex-direction:column; gap:4px; } .card-copy strong { font-size:13px; } .card-copy small { color:var(--muted); font-size:11px; } .arrow { color:var(--coral); font-size:20px; }
@@ -57,6 +58,16 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .choice-yes { background:#67ad83; }
 .choice-no { background:#91a09d; }
 .choice-button:hover { transform:translateY(-2px); }
+.education-quiz { padding:30px 0 10px; }
+.education-quiz[hidden] { display:none; }
+.education-reward { color:#bd7c18; font:700 14px 'DM Mono', monospace; }
+.education-quiz form { display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
+.education-questions { display:contents; }
+.education-question { display:flex; flex-direction:column; gap:7px; padding:14px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.5); }
+.education-question strong { margin-bottom:3px; font-size:12px; }
+.education-question label { color:var(--muted); font-size:11px; cursor:pointer; }
+.education-question input { accent-color:var(--coral); margin-right:5px; }
+.education-result { min-height:20px; margin:15px 0 0; color:var(--ink); font-size:13px; font-weight:700; }
 .lego-builder { padding:46px 0 10px; }
 .lego-builder[hidden] { display:none; }
 .builder-layout { display:grid; grid-template-columns:minmax(0, 1fr) 280px; gap:18px; }
@@ -106,4 +117,4 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .quiz-submit { grid-column:1 / -1; justify-self:start; padding:12px 18px; border:0; border-radius:12px; background:var(--coral); color:#fff; font-weight:700; cursor:pointer; }
 .quiz-result { min-height:20px; margin:18px 0 0; color:var(--ink); font-size:14px; font-weight:700; }
 footer { display:flex; justify-content:space-between; padding:25px 0 35px; color:#91a09d; font:11px 'DM Mono', monospace; }
-@media (max-width:700px) { .app-shell { width:min(100% - 30px, 540px); } .topbar { height:74px; } .hero { grid-template-columns:1fr; padding:38px 25px 10px; margin-top:15px; min-height:0; } h1 { font-size:48px; } .bot-stage { height:270px; } .mode-section { padding-top:42px; } .mode-grid, .quiz form { grid-template-columns:1fr; gap:10px; } .mode-card { min-height:77px; } .section-heading { align-items:start; } h2 { font-size:23px; max-width:230px; } .quiz { padding-top:42px; } .care-status { flex-direction:column; gap:8px; } .lego-check { grid-template-columns:1fr; gap:14px; } .photo-upload { justify-content:center; } .builder-layout { grid-template-columns:1fr; } .lego-board { min-height:210px; } .car-grid { grid-template-columns:repeat(2, 1fr); } .earn-panel { align-items:stretch; } .earn-panel > strong { flex-basis:100%; } .earn-button { flex:1; } }
+@media (max-width:700px) { .app-shell { width:min(100% - 30px, 540px); } .topbar { height:74px; } .hero { grid-template-columns:1fr; padding:38px 25px 10px; margin-top:15px; min-height:0; } h1 { font-size:48px; } .bot-stage { height:270px; } .mode-section { padding-top:42px; } .mode-grid, .quiz form, .education-quiz form { grid-template-columns:1fr; gap:10px; } .mode-card { min-height:77px; } .section-heading { align-items:start; } h2 { font-size:23px; max-width:230px; } .quiz { padding-top:42px; } .care-status { flex-direction:column; gap:8px; } .lego-check { grid-template-columns:1fr; gap:14px; } .photo-upload { justify-content:center; } .builder-layout { grid-template-columns:1fr; } .lego-board { min-height:210px; } .car-grid { grid-template-columns:repeat(2, 1fr); } .earn-panel { align-items:stretch; } .earn-panel > strong { flex-basis:100%; } .earn-button { flex:1; } }

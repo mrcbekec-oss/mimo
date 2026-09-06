@@ -41,7 +41,7 @@
     <section class="mode-section" aria-labelledby="mode-title">
       <div class="section-heading">
         <div><p class="eyebrow">Mimo'ya söyle</p><h2 id="mode-title">Şu an ne yapıyorsun?</h2></div>
-        <span class="step-count">01 / 07</span>
+        <span class="step-count">01 / 08</span>
       </div>
       <div class="mode-grid" role="group" aria-label="Aktivite seçimi">
         <button class="mode-card active" data-mode="game" type="button">
@@ -79,6 +79,11 @@
           <span class="card-copy"><strong>Dışarı çıkalım mı?</strong><small>Birlikte karar ver</small></span>
           <span class="arrow" aria-hidden="true">&#8594;</span>
         </button>
+        <button class="mode-card" data-mode="education" type="button">
+          <span class="card-icon education-icon" aria-hidden="true">A+</span>
+          <span class="card-copy"><strong>Eğitim modu</strong><small>5. sınıf testi çöz</small></span>
+          <span class="arrow" aria-hidden="true">&#8594;</span>
+        </button>
       </div>
     </section>
 
@@ -94,6 +99,18 @@
         <button class="choice-button choice-yes" id="outside-yes" type="button">Evet</button>
         <button class="choice-button choice-no" id="outside-no" type="button">Hayır</button>
       </div>
+    </section>
+
+    <section class="education-quiz" id="education-quiz" hidden aria-labelledby="education-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">Mimo akademi</p><h2 id="education-title">5. sınıf bilgi testi</h2></div>
+        <strong class="education-reward">+1000 $</strong>
+      </div>
+      <form id="education-form">
+        <div id="education-questions"></div>
+        <button class="quiz-submit" type="submit">Testi bitir</button>
+      </form>
+      <p class="education-result" id="education-result" aria-live="polite"></p>
     </section>
 
     <section class="response" aria-live="polite">

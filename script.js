@@ -118,6 +118,10 @@ const garageResult = document.querySelector('#garage-result');
 const outsideChoice = document.querySelector('#outside-choice');
 const outsideYes = document.querySelector('#outside-yes');
 const outsideNo = document.querySelector('#outside-no');
+const educationQuiz = document.querySelector('#education-quiz');
+const educationForm = document.querySelector('#education-form');
+const educationQuestions = document.querySelector('#education-questions');
+const educationResult = document.querySelector('#education-result');
 const dailyQuizzes = [
   [
     ['Bence nasıl bir arkadaş?', ['Düşünceli', 'Sessiz', 'Meraklı', 'Aceleci'], 'a'],
@@ -149,6 +153,29 @@ let selectedPiece = null;
 let garageState = JSON.parse(localStorage.getItem('mimo-garage') || '{"money":0,"ownedCars":[]}');
 let earnCooldowns = JSON.parse(localStorage.getItem('mimo-earn-cooldowns') || '{}');
 const earnCooldownMs = 30000;
+const educationQuestionsData = [
+  ['12 × 4 kaçtır?', ['36', '48', '52', '44'], 'b'],
+  ['Bir üçgenin kaç kenarı vardır?', ['2', '3', '4', '5'], 'b'],
+  ['"Kitaplarımı düzenledim." cümlesinde eylem hangisidir?', ['kitaplarımı', 'düzenledim', 'ben', 'cümle'], 'b'],
+  ['Dünya\'nın uydusu hangisidir?', ['Güneş', 'Mars', 'Ay', 'Venüs'], 'c'],
+  ['Suyun donma noktası kaç derecedir?', ['0 °C', '10 °C', '50 °C', '100 °C'], 'a'],
+  ['Türkiye\'nin başkenti neresidir?', ['İstanbul', 'Ankara', 'İzmir', 'Bursa'], 'b'],
+  ['Bir yıl kaç aydır?', ['10', '11', '12', '14'], 'c'],
+  ['Kesirlerden hangisi bir bütüne eşittir?', ['1/2', '2/3', '3/3', '1/4'], 'c'],
+  ['Fotosentez için bitkiler en çok hangi gaza ihtiyaç duyar?', ['Oksijen', 'Karbondioksit', 'Hidrojen', 'Azot'], 'b'],
+  ['"Hızlı" kelimesinin zıt anlamlısı hangisidir?', ['çabuk', 'yavaş', 'erken', 'güçlü'], 'b'],
+  ['7² kaçtır?', ['14', '21', '49', '77'], 'c'],
+  ['İstiklâl Marşı\'nın yazarı kimdir?', ['Mehmet Âkif Ersoy', 'Yahya Kemal', 'Namık Kemal', 'Orhan Veli'], 'a'],
+  ['Dünya\'nın kendi etrafında dönmesi neyi oluşturur?', ['Mevsimleri', 'Gece ve gündüzü', 'Yılları', 'Ayları'], 'b'],
+  ['Bir dikdörtgenin kaç köşesi vardır?', ['3', '4', '5', '6'], 'b'],
+  ['Nokta, virgül ve soru işareti ne olarak adlandırılır?', ['Sayılar', 'Noktalama işaretleri', 'Sesler', 'Ekler'], 'b'],
+  ['Elektriği ileten maddelerden biri hangisidir?', ['Plastik', 'Cam', 'Bakır', 'Tahta'], 'c'],
+  ['23 + 19 kaçtır?', ['32', '40', '42', '44'], 'c'],
+  ['Haritalarda yön bulmak için en çok hangi araç kullanılır?', ['Termometre', 'Pusula', 'Cetvel', 'Tartı'], 'b'],
+  ['"Çocuklar parkta oynuyor." cümlesinde özne hangisidir?', ['parkta', 'oynuyor', 'çocuklar', 'cümlesi'], 'c'],
+  ['Güneş sisteminin merkezinde ne bulunur?', ['Dünya', 'Ay', 'Güneş', 'Jüpiter'], 'c']
+];
+let educationAnswerKey = [];
 
 const cars = [
   ['Şehir Mini', '🚙', '#f6d979'], ['Kırmızı Spor', '🏎️', '#f47c64'], ['Sarı Taksi', '🚕', '#f5c85b'],
@@ -266,6 +293,16 @@ function renderDailyQuiz() {
   streakCount.textContent = `${saved.count || 0} gün seri`;
 }
 
+function renderEducationQuiz() {
+  educationAnswerKey = educationQuestionsData.map((question) => question[2]);
+  educationQuestions.innerHTML = educationQuestionsData.map(([question, choices], index) => `
+    <div class="education-question">
+      <strong>${index + 1}. ${question}</strong>
+      ${choices.map((choice, choiceIndex) => `<label><input type="radio" name="education-${index + 1}" value="${String.fromCharCode(97 + choiceIndex)}"> ${String.fromCharCode(65 + choiceIndex)}) ${choice}</label>`).join('')}
+    </div>
+  `).join('');
+}
+
 function updateStreak() {
   const today = todayKey();
   const saved = JSON.parse(localStorage.getItem('mimo-streak') || '{}');
@@ -279,6 +316,7 @@ function updateStreak() {
 }
 
 renderDailyQuiz();
+renderEducationQuiz();
 updateCareDisplay();
 
 legoPhoto.addEventListener('change', () => {
@@ -313,6 +351,7 @@ buttons.forEach((button) => {
     quiz.hidden = button.dataset.mode !== 'tuniii';
     legoBuilder.hidden = button.dataset.mode !== 'lego2d';
     outsideChoice.hidden = button.dataset.mode !== 'outside';
+    educationQuiz.hidden = button.dataset.mode !== 'education';
     quizResult.textContent = '';
     if (button.dataset.mode !== 'tuniii') quizForm.reset();
 
@@ -362,6 +401,26 @@ outsideYes.addEventListener('click', () => {
 outsideNo.addEventListener('click', () => {
   responseText.textContent = 'Tamam, bugün evde takılalım.';
   responseText.classList.add('response-pop');
+});
+
+educationForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const answers = educationAnswerKey.map((_, index) => educationForm.elements[`education-${index + 1}`].value);
+  if (answers.some((answer) => !answer)) {
+    educationResult.textContent = 'Ödülü kazanmak için tüm soruları cevapla.';
+    return;
+  }
+  const score = answers.reduce((total, answer, index) => total + (answer === educationAnswerKey[index] ? 1 : 0), 0);
+  const today = todayKey();
+  const completedDate = localStorage.getItem('mimo-education-completed');
+  if (completedDate === today) {
+    educationResult.textContent = `${score}/20 doğru! Bugünkü 1000 doları zaten kazandın.`;
+    return;
+  }
+  garageState.money = (garageState.money || 0) + 1000;
+  localStorage.setItem('mimo-education-completed', today);
+  educationResult.textContent = `${score}/20 doğru! Eğitim ödülün: +1000 $.`;
+  saveGarage();
 });
 
 piecePalette.addEventListener('click', (event) => {
