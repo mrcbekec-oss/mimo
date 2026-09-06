@@ -144,6 +144,8 @@ let legoTimer;
 let placedPieces = JSON.parse(localStorage.getItem('mimo-lego-model') || '[]');
 let selectedPiece = null;
 let garageState = JSON.parse(localStorage.getItem('mimo-garage') || '{"money":0,"ownedCars":[]}');
+let earnCooldowns = JSON.parse(localStorage.getItem('mimo-earn-cooldowns') || '{}');
+const earnCooldownMs = 30000;
 
 const cars = [
   ['Şehir Mini', '🚙', '#f6d979'], ['Kırmızı Spor', '🏎️', '#f47c64'], ['Sarı Taksi', '🚕', '#f5c85b'],
@@ -196,11 +198,29 @@ function renderGarage() {
       <button class="buy-car" type="button" data-car="${car.id}" ${owned || !canBuy ? 'disabled' : ''}>${owned ? 'Garajda' : canBuy ? 'Satın al' : '10.000 $ gerekli'}</button>
     </article>`;
   }).join('');
+  updateEarnButtons();
+}
+
+function updateEarnButtons() {
+  document.querySelectorAll('.earn-button').forEach((button) => {
+    const remaining = Math.max(0, (earnCooldowns[button.dataset.earn] || 0) - Date.now());
+    const seconds = Math.ceil(remaining / 1000);
+    button.disabled = remaining > 0;
+    button.classList.toggle('cooling-down', remaining > 0);
+    button.querySelector('.cooldown-label')?.remove();
+    if (remaining > 0) {
+      const label = document.createElement('small');
+      label.className = 'cooldown-label';
+      label.textContent = `${seconds} sn`;
+      button.append(label);
+    }
+  });
 }
 
 renderPieces();
 renderBoard();
 renderGarage();
+setInterval(updateEarnButtons, 1000);
 
 function todayKey() {
   const today = new Date();
@@ -357,8 +377,12 @@ clearLego.addEventListener('click', () => {
 document.querySelector('.earn-panel').addEventListener('click', (event) => {
   const button = event.target.closest('[data-earn]');
   if (!button) return;
+  const remaining = (earnCooldowns[button.dataset.earn] || 0) - Date.now();
+  if (remaining > 0) return;
   const rewards = { fuel: 150, wash: 250, lego: 80 };
   const reward = rewards[button.dataset.earn];
+  earnCooldowns[button.dataset.earn] = Date.now() + earnCooldownMs;
+  localStorage.setItem('mimo-earn-cooldowns', JSON.stringify(earnCooldowns));
   garageState.money = (garageState.money || 0) + reward;
   const labels = { fuel: 'Benzin sattın', wash: 'Araba yıkadın', lego: 'Lego parçası sattın' };
   garageResult.textContent = `${labels[button.dataset.earn]}: +${reward} dolar kazandın.`;

@@ -72,9 +72,12 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .money-display { color:#d99028; font:700 18px 'DM Mono', monospace; }
 .earn-panel { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin:18px 0; padding:13px; border:1px solid var(--line); border-radius:13px; background:#fffdf5; }
 .earn-panel > strong { margin-right:auto; font-size:13px; }
-.earn-button { padding:8px 10px; border:1px solid #ead9ad; border-radius:8px; background:#fff; color:var(--ink); font-size:11px; cursor:pointer; }
+.earn-button { display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border:1px solid #ead9ad; border-radius:8px; background:#fff; color:var(--ink); font-size:11px; cursor:pointer; }
 .earn-button:hover { border-color:var(--coral); }
 .earn-button span { color:#bd7c18; font-weight:800; }
+.earn-button:disabled { border-color:var(--line); background:#edf1ed; color:#82918c; cursor:default; }
+.earn-button.cooling-down span { display:none; }
+.cooldown-label { color:var(--coral); font:700 10px 'DM Mono', monospace; }
 .car-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; }
 .car-card { display:flex; flex-direction:column; gap:6px; padding:13px 10px 10px; border:1px solid var(--line); border-radius:12px; background:linear-gradient(160deg, #fff 0%, var(--car-color) 180%); text-align:center; }
 .car-art { display:grid; place-items:center; min-height:43px; font-size:31px; }
