@@ -31,6 +31,7 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .card-copy { display:flex; flex:1; flex-direction:column; gap:4px; } .card-copy strong { font-size:13px; } .card-copy small { color:var(--muted); font-size:11px; } .arrow { color:var(--coral); font-size:20px; }
 .response { display:flex; align-items:center; gap:15px; min-height:88px; padding:16px 19px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); } .response-mark { flex:none; width:35px; height:35px; border-radius:50%; font-size:13px; } .response-content { flex:1; } .response-label { display:block; margin-bottom:4px; color:#e86f5c; font:500 10px 'DM Mono', monospace; text-transform:uppercase; letter-spacing:1px; } .response p { margin:0; font-size:14px; } .wave { color:#6bad8a; font-size:28px; transform:rotate(-12deg); }
 .quiz { padding:48px 0 10px; }
+.quiz-meta { display:flex; align-items:flex-end; gap:14px; } .quiz-meta strong { color:#e86f5c; font:700 11px 'DM Mono', monospace; text-transform:uppercase; }
 .quiz[hidden] { display:none; }
 .quiz form { display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; }
 .quiz-question { display:flex; flex-direction:column; gap:8px; padding:18px; border:1.5px solid var(--line); border-radius:15px; background:rgba(255,255,255,.42); }

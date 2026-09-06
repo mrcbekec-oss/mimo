@@ -94,9 +94,69 @@ const responseText = document.querySelector('#response-text');
 const responseIndexes = { game: 0, study: 0, break: 0, tuniii: 0 };
 const quiz = document.querySelector('#quiz');
 const quizForm = document.querySelector('#quiz-form');
+const quizQuestions = document.querySelector('#quiz-questions');
 const quizResult = document.querySelector('#quiz-result');
-const answerKey = ['a', 'c', 'c', 'd', 'd'];
+const streakCount = document.querySelector('#streak-count');
+const dailyQuizzes = [
+  [
+    ['Bence nasıl bir arkadaş?', ['Düşünceli', 'Sessiz', 'Meraklı', 'Aceleci'], 'a'],
+    ['En iyi çalışma yöntemi hangisi?', ['Ertelemek', 'Vazgeçmek', 'Düzenli çalışmak', 'Rastgele ilerlemek'], 'c'],
+    ['Zor bir soruda ne yapmalısın?', ['Boş bırakmalısın', 'Kızmalısın', 'Sakin düşünüp denemelisin', 'Hemen bırakmalısın'], 'c'],
+    ['Başarı için hangisi önemlidir?', ['Şans', 'Acele', 'Bahane', 'Emek'], 'd'],
+    ['Test bitince ne yapmalısın?', ['Cevaplarını kontrol etmelisin', 'Hiç bakmamalısın', 'Soruları unutmalısın', 'Sonucu değerlendirmelisin'], 'd']
+  ],
+  [
+    ['Bir hedefe ulaşmanın ilk adımı nedir?', ['Hiç başlamamak', 'Plan yapmak', 'Şikâyet etmek', 'Beklemek'], 'b'],
+    ['Yeni bir bilgi öğrenirken ne işe yarar?', ['Tekrar etmek', 'Dikkat dağıtmak', 'Acele etmek', 'Vazgeçmek'], 'a'],
+    ['Arkadaşın üzgünse ne yaparsın?', ['Dinlersin', 'Görmezden gelirsin', 'Kızarsın', 'Konuyu değiştirirsin'], 'a'],
+    ['Bir hata yaptığında en iyi yaklaşım hangisi?', ['Ders çıkarmak', 'Saklamak', 'Pes etmek', 'Suçlamak'], 'a'],
+    ['Günün sonunda neyi fark etmek güzeldir?', ['İlerlemeni', 'Eksiklerini büyütmeyi', 'Zamanı boşa harcamayı', 'Bahane bulmayı'], 'a']
+  ],
+  [
+    ['Odaklanmak için ne yapabilirsin?', ['Bildirimleri kapatmak', 'Her şeyi aynı anda yapmak', 'Sık sık bölünmek', 'Ertelemek'], 'a'],
+    ['İyi bir ekipte hangisi bulunur?', ['Yardımlaşma', 'Sessizlik', 'Rekabet', 'Bahane'], 'a'],
+    ['Kısa bir molanın amacı nedir?', ['Enerji toplamak', 'Daha çok yorulmak', 'İşi bırakmak', 'Zaman kaybetmek'], 'a'],
+    ['Zor bir konu karşısında ne yapmalısın?', ['Parçalara ayırmak', 'Hemen vazgeçmek', 'Tahmin etmek', 'Kaçmak'], 'a'],
+    ['Kendine güvenmek ne sağlar?', ['Denemeye cesaret verir', 'Hiç hata yaptırmaz', 'Her şeyi kolaylaştırır', 'Çalışmayı gereksiz kılar'], 'a']
+  ]
+];
+let answerKey = [];
 let responseTimer;
+
+function todayKey() {
+  const today = new Date();
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+}
+
+function renderDailyQuiz() {
+  const today = new Date();
+  const localDayNumber = Math.floor(new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime() / 86400000);
+  const dayIndex = localDayNumber % dailyQuizzes.length;
+  const questions = dailyQuizzes[dayIndex];
+  answerKey = questions.map((question) => question[2]);
+  quizQuestions.innerHTML = questions.map(([question, choices], index) => `
+    <div class="quiz-question">
+      <strong>${index + 1}. ${question}</strong>
+      ${choices.map((choice, choiceIndex) => `<label><input type="radio" name="question-${index + 1}" value="${String.fromCharCode(97 + choiceIndex)}"> ${String.fromCharCode(65 + choiceIndex)}) ${choice}</label>`).join('')}
+    </div>
+  `).join('');
+  const saved = JSON.parse(localStorage.getItem('mimo-streak') || '{}');
+  streakCount.textContent = `${saved.count || 0} gün seri`;
+}
+
+function updateStreak() {
+  const today = todayKey();
+  const saved = JSON.parse(localStorage.getItem('mimo-streak') || '{}');
+  if (saved.lastDate === today) return saved.count || 1;
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const count = saved.lastDate === `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}` ? (saved.count || 0) + 1 : 1;
+  localStorage.setItem('mimo-streak', JSON.stringify({ lastDate: today, count }));
+  streakCount.textContent = `${count} gün seri`;
+  return count;
+}
+
+renderDailyQuiz();
 
 function chooseResponse(mode) {
   const messages = responses[mode];
@@ -133,6 +193,11 @@ buttons.forEach((button) => {
 quizForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const answers = answerKey.map((_, index) => quizForm.elements[`question-${index + 1}`].value);
+  if (answers.some((answer) => !answer)) {
+    quizResult.textContent = 'Devam etmek için tüm soruları cevapla.';
+    return;
+  }
   const score = answers.reduce((total, answer, index) => total + (answer === answerKey[index] ? 1 : 0), 0);
-  quizResult.textContent = `${score}/5 doğru! Cevap anahtarı: A, C, C, D, D.`;
+  updateStreak();
+  quizResult.textContent = `${score}/5 doğru! Bugünkü test tamamlandı, seri devam ediyor.`;
 });
