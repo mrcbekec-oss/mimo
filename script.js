@@ -112,6 +112,9 @@ const piecePalette = document.querySelector('#piece-palette');
 const pieceCount = document.querySelector('#piece-count');
 const builderResult = document.querySelector('#builder-result');
 const clearLego = document.querySelector('#clear-lego');
+const moneyDisplay = document.querySelector('#money-display');
+const carGrid = document.querySelector('#car-grid');
+const garageResult = document.querySelector('#garage-result');
 const dailyQuizzes = [
   [
     ['Bence nasıl bir arkadaş?', ['Düşünceli', 'Sessiz', 'Meraklı', 'Aceleci'], 'a'],
@@ -140,6 +143,14 @@ let responseTimer;
 let legoTimer;
 let placedPieces = JSON.parse(localStorage.getItem('mimo-lego-model') || '[]');
 let selectedPiece = null;
+let garageState = JSON.parse(localStorage.getItem('mimo-garage') || '{"money":0,"ownedCars":[]}');
+
+const cars = [
+  ['Şehir Mini', '🚙', '#f6d979'], ['Kırmızı Spor', '🏎️', '#f47c64'], ['Sarı Taksi', '🚕', '#f5c85b'],
+  ['Mavi Kamyonet', '🛻', '#9ccbd7'], ['Yarışçı', '🏁', '#d8c7ed'], ['Arazi Kaşifi', '🚜', '#9fc7a8'],
+  ['Klasik Cabrio', '🚗', '#f5a998'], ['Elektrikli', '🔋', '#b9dbe4'], ['Dev Teker', '🚚', '#c7b49a'],
+  ['Gece Arabası', '🚘', '#a8b5c4']
+].map(([name, icon, color], index) => ({ id: `car-${index}`, name, icon, color, price: 10000 }));
 
 const pieceTypes = [
   ...Array.from({ length: 20 }, (_, index) => ({ speed: 'yavaş', color: `hsl(${index * 18}, 72%, 66%)` })),
@@ -170,8 +181,26 @@ function saveModel() {
   renderBoard();
 }
 
+function saveGarage() {
+  localStorage.setItem('mimo-garage', JSON.stringify(garageState));
+  renderGarage();
+}
+
+function renderGarage() {
+  moneyDisplay.textContent = `${garageState.money || 0} $`;
+  carGrid.innerHTML = cars.map((car) => {
+    const owned = garageState.ownedCars.includes(car.id);
+    const canBuy = (garageState.money || 0) >= car.price;
+    return `<article class="car-card" style="--car-color:${car.color}">
+      <div class="car-art">${car.icon}</div><strong>${car.name}</strong><small>10.000 $</small>
+      <button class="buy-car" type="button" data-car="${car.id}" ${owned || !canBuy ? 'disabled' : ''}>${owned ? 'Garajda' : canBuy ? 'Satın al' : '10.000 $ gerekli'}</button>
+    </article>`;
+  }).join('');
+}
+
 renderPieces();
 renderBoard();
+renderGarage();
 
 function todayKey() {
   const today = new Date();
@@ -323,6 +352,28 @@ clearLego.addEventListener('click', () => {
   selectedPiece = null;
   document.querySelectorAll('.piece-button').forEach((item) => item.classList.remove('selected'));
   saveModel();
+});
+
+document.querySelector('.earn-panel').addEventListener('click', (event) => {
+  const button = event.target.closest('[data-earn]');
+  if (!button) return;
+  const rewards = { fuel: 150, wash: 250, lego: 80 };
+  const reward = rewards[button.dataset.earn];
+  garageState.money = (garageState.money || 0) + reward;
+  const labels = { fuel: 'Benzin sattın', wash: 'Araba yıkadın', lego: 'Lego parçası sattın' };
+  garageResult.textContent = `${labels[button.dataset.earn]}: +${reward} dolar kazandın.`;
+  saveGarage();
+});
+
+carGrid.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-car]');
+  if (!button || button.disabled) return;
+  const car = cars.find((item) => item.id === button.dataset.car);
+  if (!car || garageState.money < car.price) return;
+  garageState.money -= car.price;
+  garageState.ownedCars.push(car.id);
+  garageResult.textContent = `${car.name} garajına eklendi!`;
+  saveGarage();
 });
 
 quizForm.addEventListener('submit', (event) => {

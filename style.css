@@ -67,6 +67,22 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .piece-button small { color:var(--muted); font:9px 'DM Mono', monospace; }
 .car-piece span { width:auto; height:auto; background:none; box-shadow:none; font-size:18px; }
 .builder-result { min-height:20px; margin:15px 0 0; color:var(--ink); font-size:13px; font-weight:700; }
+.garage-heading { display:flex; align-items:flex-end; justify-content:space-between; margin-top:42px; padding-top:28px; border-top:1px solid var(--line); }
+.garage-heading h2 { margin-bottom:0; }
+.money-display { color:#d99028; font:700 18px 'DM Mono', monospace; }
+.earn-panel { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin:18px 0; padding:13px; border:1px solid var(--line); border-radius:13px; background:#fffdf5; }
+.earn-panel > strong { margin-right:auto; font-size:13px; }
+.earn-button { padding:8px 10px; border:1px solid #ead9ad; border-radius:8px; background:#fff; color:var(--ink); font-size:11px; cursor:pointer; }
+.earn-button:hover { border-color:var(--coral); }
+.earn-button span { color:#bd7c18; font-weight:800; }
+.car-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; }
+.car-card { display:flex; flex-direction:column; gap:6px; padding:13px 10px 10px; border:1px solid var(--line); border-radius:12px; background:linear-gradient(160deg, #fff 0%, var(--car-color) 180%); text-align:center; }
+.car-art { display:grid; place-items:center; min-height:43px; font-size:31px; }
+.car-card strong { font-size:11px; }
+.car-card small { color:#bd7c18; font:700 10px 'DM Mono', monospace; }
+.buy-car { margin-top:auto; padding:7px 5px; border:0; border-radius:7px; background:var(--ink); color:#fff; font-size:10px; font-weight:700; cursor:pointer; }
+.buy-car:disabled { background:#d7ded8; color:#71807d; cursor:default; }
+.garage-result { min-height:20px; margin:14px 0 0; color:var(--ink); font-size:13px; font-weight:700; }
 .quiz { padding:48px 0 10px; }
 .quiz-meta { display:flex; align-items:flex-end; gap:14px; } .quiz-meta strong { color:#e86f5c; font:700 11px 'DM Mono', monospace; text-transform:uppercase; }
 .quiz[hidden] { display:none; }
@@ -78,4 +94,4 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .quiz-submit { grid-column:1 / -1; justify-self:start; padding:12px 18px; border:0; border-radius:12px; background:var(--coral); color:#fff; font-weight:700; cursor:pointer; }
 .quiz-result { min-height:20px; margin:18px 0 0; color:var(--ink); font-size:14px; font-weight:700; }
 footer { display:flex; justify-content:space-between; padding:25px 0 35px; color:#91a09d; font:11px 'DM Mono', monospace; }
-@media (max-width:700px) { .app-shell { width:min(100% - 30px, 540px); } .topbar { height:74px; } .hero { grid-template-columns:1fr; padding:38px 25px 10px; margin-top:15px; min-height:0; } h1 { font-size:48px; } .bot-stage { height:270px; } .mode-section { padding-top:42px; } .mode-grid, .quiz form { grid-template-columns:1fr; gap:10px; } .mode-card { min-height:77px; } .section-heading { align-items:start; } h2 { font-size:23px; max-width:230px; } .quiz { padding-top:42px; } .care-status { flex-direction:column; gap:8px; } .lego-check { grid-template-columns:1fr; gap:14px; } .photo-upload { justify-content:center; } .builder-layout { grid-template-columns:1fr; } .lego-board { min-height:210px; } }
+@media (max-width:700px) { .app-shell { width:min(100% - 30px, 540px); } .topbar { height:74px; } .hero { grid-template-columns:1fr; padding:38px 25px 10px; margin-top:15px; min-height:0; } h1 { font-size:48px; } .bot-stage { height:270px; } .mode-section { padding-top:42px; } .mode-grid, .quiz form { grid-template-columns:1fr; gap:10px; } .mode-card { min-height:77px; } .section-heading { align-items:start; } h2 { font-size:23px; max-width:230px; } .quiz { padding-top:42px; } .care-status { flex-direction:column; gap:8px; } .lego-check { grid-template-columns:1fr; gap:14px; } .photo-upload { justify-content:center; } .builder-layout { grid-template-columns:1fr; } .lego-board { min-height:210px; } .car-grid { grid-template-columns:repeat(2, 1fr); } .earn-panel { align-items:stretch; } .earn-panel > strong { flex-basis:100%; } .earn-button { flex:1; } }
