@@ -115,6 +115,9 @@ const clearLego = document.querySelector('#clear-lego');
 const moneyDisplay = document.querySelector('#money-display');
 const carGrid = document.querySelector('#car-grid');
 const garageResult = document.querySelector('#garage-result');
+const outsideChoice = document.querySelector('#outside-choice');
+const outsideYes = document.querySelector('#outside-yes');
+const outsideNo = document.querySelector('#outside-no');
 const dailyQuizzes = [
   [
     ['Bence nasıl bir arkadaş?', ['Düşünceli', 'Sessiz', 'Meraklı', 'Aceleci'], 'a'],
@@ -309,6 +312,7 @@ buttons.forEach((button) => {
     void responseText.offsetWidth;
     quiz.hidden = button.dataset.mode !== 'tuniii';
     legoBuilder.hidden = button.dataset.mode !== 'lego2d';
+    outsideChoice.hidden = button.dataset.mode !== 'outside';
     quizResult.textContent = '';
     if (button.dataset.mode !== 'tuniii') quizForm.reset();
 
@@ -339,9 +343,25 @@ buttons.forEach((button) => {
       return;
     }
 
+    if (button.dataset.mode === 'outside') {
+      responseText.textContent = 'Dışarı çıkalım mı?';
+      responseText.classList.add('response-pop');
+      return;
+    }
+
     responseText.textContent = chooseResponse(button.dataset.mode);
     responseText.classList.add('response-pop');
   });
+});
+
+outsideYes.addEventListener('click', () => {
+  responseText.textContent = 'Yess be adamsın lan sen!';
+  responseText.classList.add('response-pop');
+});
+
+outsideNo.addEventListener('click', () => {
+  responseText.textContent = 'Tamam, bugün evde takılalım.';
+  responseText.classList.add('response-pop');
 });
 
 piecePalette.addEventListener('click', (event) => {

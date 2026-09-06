@@ -41,7 +41,7 @@
     <section class="mode-section" aria-labelledby="mode-title">
       <div class="section-heading">
         <div><p class="eyebrow">Mimo'ya söyle</p><h2 id="mode-title">Şu an ne yapıyorsun?</h2></div>
-        <span class="step-count">01 / 06</span>
+        <span class="step-count">01 / 07</span>
       </div>
       <div class="mode-grid" role="group" aria-label="Aktivite seçimi">
         <button class="mode-card active" data-mode="game" type="button">
@@ -74,12 +74,26 @@
           <span class="card-copy"><strong>2D Lego yap</strong><small>Bir model tasarla</small></span>
           <span class="arrow" aria-hidden="true">&#8594;</span>
         </button>
+        <button class="mode-card" data-mode="outside" type="button">
+          <span class="card-icon outside-icon" aria-hidden="true">&#9728;</span>
+          <span class="card-copy"><strong>Dışarı çıkalım mı?</strong><small>Birlikte karar ver</small></span>
+          <span class="arrow" aria-hidden="true">&#8594;</span>
+        </button>
       </div>
     </section>
 
     <section class="care-status" aria-label="Mimo gelişimi">
       <div><span class="care-label">Mimo'nun yaşı</span><strong id="age-count">1</strong></div>
       <div><span class="care-label">Toplam besleme</span><strong id="feed-count">0 / 25</strong></div>
+    </section>
+
+    <section class="outside-choice" id="outside-choice" hidden aria-labelledby="outside-title">
+      <p class="eyebrow">Küçük bir plan</p>
+      <h2 id="outside-title">Dışarı çıkalım mı?</h2>
+      <div class="choice-buttons">
+        <button class="choice-button choice-yes" id="outside-yes" type="button">Evet</button>
+        <button class="choice-button choice-no" id="outside-no" type="button">Hayır</button>
+      </div>
     </section>
 
     <section class="response" aria-live="polite">

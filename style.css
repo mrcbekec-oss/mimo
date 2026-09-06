@@ -30,6 +30,7 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .tuniii-icon { display:grid; place-items:center; background:#d8c7ed; color:var(--ink); font-size:22px; font-weight:800; }
 .feed-icon { display:grid; place-items:center; background:#f5a998; color:var(--ink); font-size:18px; }
 .lego2d-icon { display:grid; place-items:center; background:#f6d979; color:var(--ink); font-size:20px; }
+.outside-icon { display:grid; place-items:center; background:#f6d979; color:#d99028; font-size:21px; }
 .feed-card:disabled { cursor:default; opacity:.68; transform:none; }
 .feed-card.is-complete { border-color:#91b7a4; background:#edf7ef; }
 .card-copy { display:flex; flex:1; flex-direction:column; gap:4px; } .card-copy strong { font-size:13px; } .card-copy small { color:var(--muted); font-size:11px; } .arrow { color:var(--coral); font-size:20px; }
@@ -48,6 +49,14 @@ h1,h2,p { margin-top:0; } h1 { margin-bottom:20px; font-size:clamp(43px, 6vw, 70
 .care-status div { display:flex; flex:1; align-items:center; justify-content:space-between; padding:14px 17px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.42); }
 .care-label { color:var(--muted); font:500 10px 'DM Mono', monospace; text-transform:uppercase; letter-spacing:.7px; }
 .care-status strong { color:var(--coral); font-size:18px; }
+.outside-choice { padding:30px 0 10px; }
+.outside-choice[hidden] { display:none; }
+.outside-choice h2 { margin-bottom:17px; }
+.choice-buttons { display:flex; gap:10px; }
+.choice-button { min-width:100px; padding:11px 18px; border:0; border-radius:10px; color:#fff; font-weight:800; cursor:pointer; }
+.choice-yes { background:#67ad83; }
+.choice-no { background:#91a09d; }
+.choice-button:hover { transform:translateY(-2px); }
 .lego-builder { padding:46px 0 10px; }
 .lego-builder[hidden] { display:none; }
 .builder-layout { display:grid; grid-template-columns:minmax(0, 1fr) 280px; gap:18px; }
