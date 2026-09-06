@@ -79,8 +79,25 @@
 
     <section class="response" aria-live="polite">
       <div class="response-mark">M</div>
-      <div class="response-content"><span class="response-label">Mimo diyor ki</span><p id="response-text">Standoff 2 oynayalım mı?</p></div>
+      <div class="response-content"><span class="response-label">Mimo diyor ki</span><p id="response-text">Lego yaptın mı?</p></div>
       <span class="wave" aria-hidden="true">&#8767;</span>
+    </section>
+
+    <section class="lego-check" aria-labelledby="lego-title">
+      <div class="lego-copy">
+        <p class="eyebrow">Bugünün minik görevi</p>
+        <h2 id="lego-title">Lego yaptın mı?</h2>
+        <p>Yaptıysan fotoğrafını Mimo'ya göster.</p>
+      </div>
+      <label class="photo-upload" for="lego-photo">
+        <span class="upload-icon" aria-hidden="true">+</span>
+        <span>Fotoğraf yükle</span>
+        <input id="lego-photo" type="file" accept="image/*">
+      </label>
+      <div class="lego-preview-wrap" id="lego-preview-wrap" hidden>
+        <img id="lego-preview" alt="Yüklenen Lego fotoğrafı">
+        <span id="lego-waiting">Mimo fotoğrafına bakıyor...</span>
+      </div>
     </section>
 
     <section class="quiz" id="quiz" hidden aria-labelledby="quiz-title">

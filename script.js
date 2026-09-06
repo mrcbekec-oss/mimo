@@ -102,6 +102,10 @@ const feedTitle = document.querySelector('#feed-title');
 const feedStatus = document.querySelector('#feed-status');
 const ageCount = document.querySelector('#age-count');
 const feedCount = document.querySelector('#feed-count');
+const legoPhoto = document.querySelector('#lego-photo');
+const legoPreviewWrap = document.querySelector('#lego-preview-wrap');
+const legoPreview = document.querySelector('#lego-preview');
+const legoWaiting = document.querySelector('#lego-waiting');
 const dailyQuizzes = [
   [
     ['Bence nasıl bir arkadaş?', ['Düşünceli', 'Sessiz', 'Meraklı', 'Aceleci'], 'a'],
@@ -127,6 +131,7 @@ const dailyQuizzes = [
 ];
 let answerKey = [];
 let responseTimer;
+let legoTimer;
 
 function todayKey() {
   const today = new Date();
@@ -178,6 +183,21 @@ function updateStreak() {
 
 renderDailyQuiz();
 updateCareDisplay();
+
+legoPhoto.addEventListener('change', () => {
+  const [photo] = legoPhoto.files;
+  if (!photo) return;
+  clearTimeout(legoTimer);
+  legoPreview.src = URL.createObjectURL(photo);
+  legoPreviewWrap.hidden = false;
+  legoWaiting.hidden = false;
+  responseText.textContent = 'Fotoğrafını inceliyorum...';
+  legoTimer = setTimeout(() => {
+    legoWaiting.hidden = true;
+    responseText.textContent = 'Çok güzel olmuş! Daha da büyütebilirsin.';
+    responseText.classList.add('response-pop');
+  }, 2500);
+});
 
 function chooseResponse(mode) {
   const messages = responses[mode];
