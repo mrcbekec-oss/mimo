@@ -106,6 +106,12 @@ const legoPhoto = document.querySelector('#lego-photo');
 const legoPreviewWrap = document.querySelector('#lego-preview-wrap');
 const legoPreview = document.querySelector('#lego-preview');
 const legoWaiting = document.querySelector('#lego-waiting');
+const legoBuilder = document.querySelector('#lego-builder');
+const legoBoard = document.querySelector('#lego-board');
+const piecePalette = document.querySelector('#piece-palette');
+const pieceCount = document.querySelector('#piece-count');
+const builderResult = document.querySelector('#builder-result');
+const clearLego = document.querySelector('#clear-lego');
 const dailyQuizzes = [
   [
     ['Bence nasıl bir arkadaş?', ['Düşünceli', 'Sessiz', 'Meraklı', 'Aceleci'], 'a'],
@@ -132,6 +138,40 @@ const dailyQuizzes = [
 let answerKey = [];
 let responseTimer;
 let legoTimer;
+let placedPieces = JSON.parse(localStorage.getItem('mimo-lego-model') || '[]');
+let selectedPiece = null;
+
+const pieceTypes = [
+  ...Array.from({ length: 20 }, (_, index) => ({ speed: 'yavaş', color: `hsl(${index * 18}, 72%, 66%)` })),
+  ...Array.from({ length: 20 }, (_, index) => ({ speed: 'orta', color: `hsl(${index * 18 + 12}, 78%, 55%)` })),
+  ...Array.from({ length: 10 }, (_, index) => ({ speed: 'çok hızlı', color: `hsl(${index * 36 + 8}, 88%, 48%)` }))
+];
+
+function renderPieces() {
+  piecePalette.innerHTML = pieceTypes.map((piece, index) => `<button class="piece-button" type="button" data-piece="${index}" style="--piece-color:${piece.color}" title="${piece.speed} parça"><span></span><small>${index + 1}</small></button>`).join('');
+  piecePalette.insertAdjacentHTML('beforeend', '<button class="piece-button car-piece" type="button" data-piece="car" title="Araba ekle"><span>🚗</span><small>Araba</small></button>');
+}
+
+function renderBoard() {
+  legoBoard.innerHTML = placedPieces.map((piece, index) => {
+    const x = Number.isInteger(piece.x) ? piece.x : index % 10;
+    const y = Number.isInteger(piece.y) ? piece.y : Math.floor(index / 10);
+    const position = `grid-column:${x + 1};grid-row:${y + 1};`;
+    return piece.type === 'car'
+      ? `<button class="placed-piece placed-car" style="${position}" type="button" data-remove="${piece.id}" title="Arabayı kaldır">🚗</button>`
+      : `<button class="placed-piece ${piece.speed.replace(' ', '-')}" style="${position}--piece-color:${piece.color}" type="button" data-remove="${piece.id}" title="Parçayı kaldır"></button>`;
+  }).join('');
+  pieceCount.textContent = `${placedPieces.length} / 50 parça`;
+  builderResult.textContent = placedPieces.length ? `${placedPieces.length} parça ile harika gidiyorsun!` : 'Haydi modelini oluşturalım!';
+}
+
+function saveModel() {
+  localStorage.setItem('mimo-lego-model', JSON.stringify(placedPieces));
+  renderBoard();
+}
+
+renderPieces();
+renderBoard();
 
 function todayKey() {
   const today = new Date();
@@ -214,6 +254,7 @@ buttons.forEach((button) => {
     responseText.classList.remove('response-pop');
     void responseText.offsetWidth;
     quiz.hidden = button.dataset.mode !== 'tuniii';
+    legoBuilder.hidden = button.dataset.mode !== 'lego2d';
     quizResult.textContent = '';
     if (button.dataset.mode !== 'tuniii') quizForm.reset();
 
@@ -247,6 +288,41 @@ buttons.forEach((button) => {
     responseText.textContent = chooseResponse(button.dataset.mode);
     responseText.classList.add('response-pop');
   });
+});
+
+piecePalette.addEventListener('click', (event) => {
+  const button = event.target.closest('.piece-button');
+  if (!button) return;
+  selectedPiece = button.dataset.piece === 'car'
+    ? { type: 'car' }
+    : { ...pieceTypes[Number(button.dataset.piece)] };
+  document.querySelectorAll('.piece-button').forEach((item) => item.classList.remove('selected'));
+  button.classList.add('selected');
+  builderResult.textContent = 'Şimdi tahtada istediğin yere dokun.';
+});
+
+legoBoard.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-remove]');
+  if (button) {
+    const index = placedPieces.findIndex((piece) => piece.id === button.dataset.remove);
+    if (index >= 0) placedPieces.splice(index, 1);
+    saveModel();
+    return;
+  }
+  if (!selectedPiece || placedPieces.length >= 50) return;
+  const boardBox = legoBoard.getBoundingClientRect();
+  const x = Math.max(0, Math.min(9, Math.floor((event.clientX - boardBox.left) / (boardBox.width / 10))));
+  const y = Math.max(0, Math.min(5, Math.floor((event.clientY - boardBox.top) / 43)));
+  const id = `${Date.now()}-${placedPieces.length}`;
+  placedPieces.push({ ...selectedPiece, id, x, y });
+  saveModel();
+});
+
+clearLego.addEventListener('click', () => {
+  placedPieces = [];
+  selectedPiece = null;
+  document.querySelectorAll('.piece-button').forEach((item) => item.classList.remove('selected'));
+  saveModel();
 });
 
 quizForm.addEventListener('submit', (event) => {

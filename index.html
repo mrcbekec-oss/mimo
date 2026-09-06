@@ -41,7 +41,7 @@
     <section class="mode-section" aria-labelledby="mode-title">
       <div class="section-heading">
         <div><p class="eyebrow">Mimo'ya söyle</p><h2 id="mode-title">Şu an ne yapıyorsun?</h2></div>
-        <span class="step-count">01 / 05</span>
+        <span class="step-count">01 / 06</span>
       </div>
       <div class="mode-grid" role="group" aria-label="Aktivite seçimi">
         <button class="mode-card active" data-mode="game" type="button">
@@ -67,6 +67,11 @@
         <button class="mode-card feed-card" data-mode="feed" type="button">
           <span class="card-icon feed-icon" aria-hidden="true">&#9829;</span>
           <span class="card-copy"><strong id="feed-title">Mimo'yu besle</strong><small id="feed-status">Bugünkü hakkın hazır</small></span>
+          <span class="arrow" aria-hidden="true">&#8594;</span>
+        </button>
+        <button class="mode-card" data-mode="lego2d" type="button">
+          <span class="card-icon lego2d-icon" aria-hidden="true">&#9632;</span>
+          <span class="card-copy"><strong>2D Lego yap</strong><small>Bir model tasarla</small></span>
           <span class="arrow" aria-hidden="true">&#8594;</span>
         </button>
       </div>
@@ -110,6 +115,22 @@
         <button class="quiz-submit" type="submit">Testi değerlendir</button>
       </form>
       <p class="quiz-result" id="quiz-result" aria-live="polite"></p>
+    </section>
+
+    <section class="lego-builder" id="lego-builder" hidden aria-labelledby="lego-builder-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">Yaratıcı oyun</p><h2 id="lego-builder-title">2D Lego atölyesi</h2></div>
+        <span class="step-count" id="piece-count">0 / 50 parça</span>
+      </div>
+      <div class="builder-layout">
+        <div class="lego-board" id="lego-board" aria-label="Lego model tahtası"></div>
+        <div class="piece-panel">
+          <div class="piece-panel-heading"><strong>Parçalar</strong><button id="clear-lego" type="button">Temizle</button></div>
+          <p class="piece-hint">Parçayı seç, sonra tahtada istediğin yere dokun.</p>
+          <div class="piece-palette" id="piece-palette"></div>
+        </div>
+      </div>
+      <p class="builder-result" id="builder-result" aria-live="polite">Haydi modelini oluşturalım!</p>
     </section>
 
     <footer><span>Mimo ile küçük anlar, büyük enerji.</span><span>v1.0</span></footer>
