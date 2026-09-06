@@ -41,7 +41,7 @@
     <section class="mode-section" aria-labelledby="mode-title">
       <div class="section-heading">
         <div><p class="eyebrow">Mimo'ya söyle</p><h2 id="mode-title">Şu an ne yapıyorsun?</h2></div>
-        <span class="step-count">01 / 04</span>
+        <span class="step-count">01 / 05</span>
       </div>
       <div class="mode-grid" role="group" aria-label="Aktivite seçimi">
         <button class="mode-card active" data-mode="game" type="button">
@@ -64,7 +64,17 @@
           <span class="card-copy"><strong>tuniii</strong><small>Tuna'ya sor</small></span>
           <span class="arrow" aria-hidden="true">&#8594;</span>
         </button>
+        <button class="mode-card feed-card" data-mode="feed" type="button">
+          <span class="card-icon feed-icon" aria-hidden="true">&#9829;</span>
+          <span class="card-copy"><strong id="feed-title">Mimo'yu besle</strong><small id="feed-status">Bugünkü hakkın hazır</small></span>
+          <span class="arrow" aria-hidden="true">&#8594;</span>
+        </button>
       </div>
+    </section>
+
+    <section class="care-status" aria-label="Mimo gelişimi">
+      <div><span class="care-label">Mimo'nun yaşı</span><strong id="age-count">1</strong></div>
+      <div><span class="care-label">Toplam besleme</span><strong id="feed-count">0 / 25</strong></div>
     </section>
 
     <section class="response" aria-live="polite">

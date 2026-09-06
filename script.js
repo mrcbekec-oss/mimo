@@ -97,6 +97,11 @@ const quizForm = document.querySelector('#quiz-form');
 const quizQuestions = document.querySelector('#quiz-questions');
 const quizResult = document.querySelector('#quiz-result');
 const streakCount = document.querySelector('#streak-count');
+const feedCard = document.querySelector('[data-mode="feed"]');
+const feedTitle = document.querySelector('#feed-title');
+const feedStatus = document.querySelector('#feed-status');
+const ageCount = document.querySelector('#age-count');
+const feedCount = document.querySelector('#feed-count');
 const dailyQuizzes = [
   [
     ['Bence nasıl bir arkadaş?', ['Düşünceli', 'Sessiz', 'Meraklı', 'Aceleci'], 'a'],
@@ -128,6 +133,21 @@ function todayKey() {
   return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 }
 
+function getCareState() {
+  return JSON.parse(localStorage.getItem('mimo-care') || '{"age":1,"total":0}');
+}
+
+function updateCareDisplay() {
+  const state = getCareState();
+  const alreadyFed = state.lastFedDate === todayKey();
+  ageCount.textContent = state.age || 1;
+  feedCount.textContent = `${state.total || 0} / 25`;
+  feedCard.disabled = alreadyFed;
+  feedCard.classList.toggle('is-complete', alreadyFed);
+  feedTitle.textContent = alreadyFed ? 'Bugün beslendi' : "Mimo'yu besle";
+  feedStatus.textContent = alreadyFed ? 'Yarın tekrar gelebilirsin' : 'Bugünkü hakkın hazır';
+}
+
 function renderDailyQuiz() {
   const today = new Date();
   const localDayNumber = Math.floor(new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime() / 86400000);
@@ -157,6 +177,7 @@ function updateStreak() {
 }
 
 renderDailyQuiz();
+updateCareDisplay();
 
 function chooseResponse(mode) {
   const messages = responses[mode];
@@ -182,6 +203,24 @@ buttons.forEach((button) => {
         responseText.textContent = chooseResponse(button.dataset.mode);
         responseText.classList.add('response-pop');
       }, 3000);
+      return;
+    }
+
+    if (button.dataset.mode === 'feed') {
+      const state = getCareState();
+      const today = todayKey();
+      if (state.lastFedDate === today) return;
+      state.lastFedDate = today;
+      state.total = (state.total || 0) + 1;
+      if (state.total % 25 === 0) {
+        state.age = (state.age || 1) + 1;
+        responseText.textContent = `Mimo büyüdü! Artık ${state.age}. yaşında.`;
+      } else {
+        responseText.textContent = 'Mimo beslendi, teşekkür eder!';
+      }
+      localStorage.setItem('mimo-care', JSON.stringify(state));
+      updateCareDisplay();
+      responseText.classList.add('response-pop');
       return;
     }
 
