@@ -163,6 +163,10 @@ const pieceTypes = [
 function renderPieces() {
   piecePalette.innerHTML = pieceTypes.map((piece, index) => `<button class="piece-button" type="button" data-piece="${index}" style="--piece-color:${piece.color}" title="${piece.speed} parça"><span></span><small>${index + 1}</small></button>`).join('');
   piecePalette.insertAdjacentHTML('beforeend', '<button class="piece-button car-piece" type="button" data-piece="car" title="Araba ekle"><span>🚗</span><small>Araba</small></button>');
+  const ownedCars = garageState.ownedCars.map((carId) => cars.find((car) => car.id === carId)).filter(Boolean);
+  if (ownedCars.length) {
+    piecePalette.insertAdjacentHTML('beforeend', ownedCars.map((car) => `<button class="piece-button owned-car-piece" type="button" data-piece="garage:${car.id}" style="--piece-color:${car.color}" title="${car.name} ekle"><span>${car.icon}</span><small>${car.name}</small></button>`).join(''));
+  }
 }
 
 function renderBoard() {
@@ -171,7 +175,7 @@ function renderBoard() {
     const y = Number.isInteger(piece.y) ? piece.y : Math.floor(index / 10);
     const position = `grid-column:${x + 1};grid-row:${y + 1};`;
     return piece.type === 'car'
-      ? `<button class="placed-piece placed-car" style="${position}" type="button" data-remove="${piece.id}" title="Arabayı kaldır">🚗</button>`
+      ? `<button class="placed-piece placed-car" style="${position}--piece-color:${piece.color || '#fff'}" type="button" data-remove="${piece.id}" title="Arabayı kaldır">${piece.icon || '🚗'}</button>`
       : `<button class="placed-piece ${piece.speed.replace(' ', '-')}" style="${position}--piece-color:${piece.color}" type="button" data-remove="${piece.id}" title="Parçayı kaldır"></button>`;
   }).join('');
   pieceCount.textContent = `${placedPieces.length} / 50 parça`;
@@ -185,6 +189,7 @@ function saveModel() {
 
 function saveGarage() {
   localStorage.setItem('mimo-garage', JSON.stringify(garageState));
+  renderPieces();
   renderGarage();
 }
 
@@ -342,9 +347,15 @@ buttons.forEach((button) => {
 piecePalette.addEventListener('click', (event) => {
   const button = event.target.closest('.piece-button');
   if (!button) return;
-  selectedPiece = button.dataset.piece === 'car'
-    ? { type: 'car' }
-    : { ...pieceTypes[Number(button.dataset.piece)] };
+  if (button.dataset.piece === 'car') {
+    selectedPiece = { type: 'car', icon: '🚗', color: '#fff' };
+  } else if (button.dataset.piece.startsWith('garage:')) {
+    const car = cars.find((item) => item.id === button.dataset.piece.replace('garage:', ''));
+    selectedPiece = car ? { type: 'car', carId: car.id, icon: car.icon, color: car.color } : null;
+  } else {
+    selectedPiece = { ...pieceTypes[Number(button.dataset.piece)] };
+  }
+  if (!selectedPiece) return;
   document.querySelectorAll('.piece-button').forEach((item) => item.classList.remove('selected'));
   button.classList.add('selected');
   builderResult.textContent = 'Şimdi tahtada istediğin yere dokun.';
